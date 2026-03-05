@@ -39,7 +39,7 @@ const PLATFORMS: Platform[] = [
   {
     label: "Download on the",
     name: "App Store",
-    href: "https://apps.apple.com/us/app/sourceview-bible/id1114617271",
+    href: "https://apps.apple.com/us/app/sourceview-together-bible/id6748708102",
     icon: <AppleIcon />,
   },
   {

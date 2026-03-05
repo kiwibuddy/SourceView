@@ -1,6 +1,6 @@
-import type { FC } from "react";
+"use client";
 
-interface ScriptureDemoProps {}
+import { useEffect, useRef, useState, type FC } from "react";
 
 interface ColorLegendItem {
   label: string;
@@ -14,50 +14,38 @@ const LEGEND: ColorLegendItem[] = [
   { label: "Narrator", color: "var(--narrator)" },
 ];
 
-interface ScriptureLine {
-  speaker: string;
-  color: string;
-  text: string;
-}
-
-const LINES: ScriptureLine[] = [
-  {
-    speaker: "Narrator",
-    color: "var(--ink3)",
-    text: "The Lord gave this message to Jonah son of Amittai:",
-  },
-  {
-    speaker: "God",
-    color: "var(--god)",
-    text: "\u201CGet up and go to the great city of Nineveh. Announce my judgment against it.\u201D",
-  },
-  {
-    speaker: "Narrator",
-    color: "var(--ink3)",
-    text: "But Jonah got up and went in the opposite direction to get away from the Lord.",
-  },
-  {
-    speaker: "Sailors",
-    color: "var(--support)",
-    text: "\u201CWhy has this storm come? Who are you? What do you do?\u201D",
-  },
-  {
-    speaker: "Jonah",
-    color: "var(--lead)",
-    text: "\u201CI am a Hebrew, and I worship the Lord, the God of heaven.\u201D",
-  },
+const JONAH_IMAGES = [
+  "/images/Jonah/Jonah_1.png",
+  "/images/Jonah/Jonah_2.png",
+  "/images/Jonah/Jonah_3.png",
+  "/images/Jonah/Jonah_4.png",
 ];
 
-const ScriptureDemo: FC<ScriptureDemoProps> = () => {
+const ScriptureDemo: FC = () => {
+  const phoneRef = useRef<HTMLDivElement>(null);
+  const [phoneVisible, setPhoneVisible] = useState(false);
+
+  useEffect(() => {
+    const el = phoneRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setPhoneVisible(true); },
+      { threshold: 0.15 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section
+      id="demo"
       className="bg-[var(--bg2)]"
       style={{
         borderTop: "1px solid rgba(0,0,0,0.04)",
         borderBottom: "1px solid rgba(0,0,0,0.04)",
       }}
     >
-      <div className="grid grid-cols-1 md:grid-cols-[1fr_1.1fr] gap-12 md:gap-20 items-center mx-auto max-w-[1200px] px-5 py-16 md:px-10 md:py-28">
+      <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-10 md:gap-14 items-center mx-auto max-w-[1000px] px-6 md:px-10 py-16 md:py-24">
         {/* Left column */}
         <div>
           <p className="s-label">How It Works</p>
@@ -97,89 +85,135 @@ const ScriptureDemo: FC<ScriptureDemoProps> = () => {
               </span>
             ))}
           </div>
+
+          <p
+            className="mt-6"
+            style={{
+              fontSize: "0.72rem",
+              color: "var(--ink4)",
+              fontWeight: 300,
+              fontStyle: "italic",
+            }}
+          >
+            Scroll through Jonah to see the four-color text in action &rarr;
+          </p>
         </div>
 
-        {/* Right column — scripture card */}
+        {/* Right column — iPhone 16 Pro mockup */}
         <div
-          className="relative overflow-hidden"
+          ref={phoneRef}
           style={{
-            background: "#fff",
-            border: "1px solid rgba(0,0,0,0.06)",
-            borderRadius: "var(--radius)",
-            padding: "2rem",
-            boxShadow: "0 20px 60px rgba(0,0,0,0.04)",
+            opacity: phoneVisible ? 1 : 0,
+            animation: phoneVisible
+              ? "phoneEntrance 1s cubic-bezier(0.23,1,0.32,1) forwards, phoneFloat 6s ease-in-out 1s infinite"
+              : "none",
           }}
         >
           <div
-            className="absolute top-0 left-0 w-full"
-            style={{
-              height: 3,
-              background:
-                "linear-gradient(90deg, var(--god), var(--lead), var(--support), var(--narrator))",
-            }}
-          />
-
-          <div
-            className="flex items-center justify-between"
-            style={{
-              borderBottom: "1px solid rgba(0,0,0,0.06)",
-              paddingBottom: "0.8rem",
-              marginBottom: "1.5rem",
-            }}
+            className="relative mx-auto"
+            style={{ width: 272 }}
           >
-            <span
-              className="font-mono uppercase"
+            {/* Titanium outer frame */}
+            <div
+              className="absolute inset-0 rounded-[54px]"
               style={{
-                fontSize: "0.62rem",
-                color: "var(--ink4)",
-                letterSpacing: "0.12em",
+                background: "linear-gradient(165deg, #c8c8cc 0%, #98989d 20%, #7c7c80 50%, #98989d 80%, #c8c8cc 100%)",
+                boxShadow:
+                  "0 50px 100px rgba(0,0,0,0.22), 0 20px 40px rgba(0,0,0,0.15), inset 0 0.5px 0 rgba(255,255,255,0.5), inset 0 -0.5px 0 rgba(0,0,0,0.15)",
               }}
-            >
-              JONAH 1 &middot; Story 1 of 365
-            </span>
+            />
 
-            <span className="flex items-center" style={{ gap: 4 }}>
-              {["var(--god)", "var(--lead)", "var(--support)", "var(--narrator)"].map(
-                (c) => (
-                  <span
-                    key={c}
-                    className="rounded-full"
-                    style={{ width: 7, height: 7, backgroundColor: c }}
-                  />
-                )
-              )}
-            </span>
-          </div>
+            {/* Antenna lines */}
+            <div className="absolute top-[80px] left-0 w-full" style={{ height: "0.5px", background: "rgba(0,0,0,0.06)" }} />
+            <div className="absolute bottom-[80px] left-0 w-full" style={{ height: "0.5px", background: "rgba(0,0,0,0.06)" }} />
 
-          <div>
-            {LINES.map((line, i) => (
+            {/* Power button */}
+            <div
+              className="absolute"
+              style={{
+                right: -1.5,
+                top: 148,
+                width: 2.5,
+                height: 56,
+                borderRadius: "0 3px 3px 0",
+                background: "linear-gradient(to right, #98989d, #b0b0b4, #98989d)",
+                boxShadow: "1px 0 2px rgba(0,0,0,0.15)",
+              }}
+            />
+            {/* Volume up */}
+            <div
+              className="absolute"
+              style={{
+                left: -1.5,
+                top: 120,
+                width: 2.5,
+                height: 32,
+                borderRadius: "3px 0 0 3px",
+                background: "linear-gradient(to left, #98989d, #b0b0b4, #98989d)",
+                boxShadow: "-1px 0 2px rgba(0,0,0,0.15)",
+              }}
+            />
+            {/* Volume down */}
+            <div
+              className="absolute"
+              style={{
+                left: -1.5,
+                top: 162,
+                width: 2.5,
+                height: 32,
+                borderRadius: "3px 0 0 3px",
+                background: "linear-gradient(to left, #98989d, #b0b0b4, #98989d)",
+                boxShadow: "-1px 0 2px rgba(0,0,0,0.15)",
+              }}
+            />
+
+            {/* Inner body */}
+            <div className="relative" style={{ padding: 4 }}>
+              {/* Black bezel */}
               <div
-                key={i}
-                className="rounded-lg transition-all duration-300 hover:bg-black/[0.02] hover:translate-x-1"
+                className="relative overflow-hidden"
                 style={{
-                  padding: "0.5rem 0.6rem",
-                  margin: "0.2rem 0",
-                  fontSize: "0.88rem",
-                  lineHeight: 1.7,
-                  fontWeight: 300,
-                  color: line.color,
+                  borderRadius: 50,
+                  background: "#000",
+                  padding: 2.5,
                 }}
               >
-                <span
-                  className="font-mono uppercase inline-block"
+                {/* Dynamic Island */}
+                <div
+                  className="absolute z-10 left-1/2 -translate-x-1/2"
                   style={{
-                    fontSize: "0.55rem",
-                    letterSpacing: "0.1em",
-                    opacity: 0.4,
-                    marginRight: "0.6rem",
-                    minWidth: 55,
+                    top: 9,
+                    width: 90,
+                    height: 26,
+                    borderRadius: 20,
+                    background: "#000",
+                  }}
+                />
+
+                {/* Screen */}
+                <div
+                  className="overflow-y-auto overflow-x-hidden scripture-scroll"
+                  style={{
+                    borderRadius: 47,
+                    background: "#fff",
+                    height: 560,
+                    WebkitOverflowScrolling: "touch",
                   }}
                 >
-                  {line.speaker}
-                </span>
-                {line.text}
+                  {JONAH_IMAGES.map((src, i) => (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      key={i}
+                      src={src}
+                      alt={`Jonah page ${i + 1}`}
+                      className="w-full block"
+                      style={{ display: "block" }}
+                      loading={i === 0 ? "eager" : "lazy"}
+                    />
+                  ))}
+                </div>
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </div>

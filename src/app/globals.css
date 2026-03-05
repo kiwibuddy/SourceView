@@ -88,6 +88,24 @@ body {
   50% { opacity: 0.4; transform: scale(0.8); }
 }
 
+@keyframes inchworm {
+  0% { width: 15%; margin-left: 10%; }
+  25% { width: 45%; margin-left: 10%; }
+  50% { width: 45%; margin-left: 45%; }
+  75% { width: 20%; margin-left: 70%; }
+  100% { width: 15%; margin-left: 10%; }
+}
+
+@keyframes phoneFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+
+@keyframes phoneEntrance {
+  0% { opacity: 0; transform: translateY(60px) scale(0.95) rotate(2deg); }
+  100% { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); }
+}
+
 /* Reveal on scroll utility */
 .rv {
   opacity: 0;
@@ -135,9 +153,111 @@ body {
   font-weight: 300;
 }
 
+/* Bento card animations */
+.bento-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.06);
+  border-color: rgba(0,0,0,0.08) !important;
+}
+
+/* Feature card animations */
+.feature-card {
+  cursor: default;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.feature-card:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+  border-color: var(--ruby) !important;
+  background-color: white !important;
+}
+
+.feature-card .feature-keyword {
+  color: var(--ink2);
+  transition: all 0.4s ease;
+  background-size: 200% auto;
+  background-image: linear-gradient(90deg, var(--ink2) 0%, var(--ruby) 50%, var(--god) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+.feature-card:hover .feature-keyword {
+  -webkit-text-fill-color: transparent;
+  background-position: right center;
+}
+
+.feature-card:hover .feature-card-title {
+  color: var(--ruby);
+  transition: color 0.3s ease;
+}
+
+/* Scripture phone scroll */
+.scripture-scroll::-webkit-scrollbar {
+  width: 3px;
+}
+.scripture-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scripture-scroll::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.15);
+  border-radius: 10px;
+}
+
 /* Color strip decoration */
 .color-strip {
   height: 3px;
   background: linear-gradient(90deg, var(--god), var(--lead), var(--support), var(--narrator));
   border-radius: 0 0 var(--radius) var(--radius);
+}
+
+/* Influencer reel — directional clip-path reveals */
+@keyframes reelRevealRight {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0% 0 0); }
+}
+@keyframes reelRevealUp {
+  from { clip-path: inset(100% 0 0 0); }
+  to   { clip-path: inset(0% 0 0 0); }
+}
+@keyframes reelRevealLeft {
+  from { clip-path: inset(0 0 0 100%); }
+  to   { clip-path: inset(0 0 0 0%); }
+}
+@keyframes reelRevealDown {
+  from { clip-path: inset(0 0 100% 0); }
+  to   { clip-path: inset(0 0 0% 0); }
+}
+
+/* Per-image Ken Burns drift directions */
+@keyframes reelDrift0 {
+  from { transform: scale(1) translate(0,0); }
+  to   { transform: scale(1.08) translate(-1.5%,-1%); }
+}
+@keyframes reelDrift1 {
+  from { transform: scale(1) translate(0,0); }
+  to   { transform: scale(1.1) translate(1.5%,-0.5%); }
+}
+@keyframes reelDrift2 {
+  from { transform: scale(1) translate(0,0); }
+  to   { transform: scale(1.06) translate(-0.5%,1%); }
+}
+@keyframes reelDrift3 {
+  from { transform: scale(1) translate(0,0); }
+  to   { transform: scale(1.09) translate(1%,1%); }
+}
+@keyframes reelDrift4 {
+  from { transform: scale(1) translate(0,0); }
+  to   { transform: scale(1.07) translate(-1%,-1.5%); }
+}
+@keyframes reelDrift5 {
+  from { transform: scale(1) translate(0,0); }
+  to   { transform: scale(1.1) translate(0.5%,-1%); }
+}
+
+/* Progress bar timer */
+@keyframes reelTimer {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
 }

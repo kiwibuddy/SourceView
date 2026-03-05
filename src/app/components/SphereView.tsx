@@ -3,61 +3,83 @@
 import { type FC } from "react";
 import Image from "next/image";
 
-interface SphereViewProps {}
-
 interface Sphere {
   name: string;
   color: string;
   image: string;
-  position: React.CSSProperties;
 }
 
 const SPHERES: Sphere[] = [
-  {
-    name: "Religion",
-    color: "#4CAF50",
-    image: "/images/sphere-religion.svg",
-    position: { top: 0, left: "50%", transform: "translate(-50%, -15%)" },
-  },
-  {
-    name: "Family",
-    color: "#F44336",
-    image: "/images/sphere-family.svg",
-    position: { top: "12%", right: "5%", transform: "translate(10%, 0)" },
-  },
-  {
-    name: "Government",
-    color: "#FFC107",
-    image: "/images/sphere-government.svg",
-    position: { top: "45%", right: "-8%" },
-  },
-  {
-    name: "Media",
-    color: "#7C4DFF",
-    image: "/images/sphere-media.svg",
-    position: { bottom: "8%", right: "10%", transform: "translate(0, 10%)" },
-  },
-  {
-    name: "Education",
-    color: "#00BCD4",
-    image: "/images/sphere-education.svg",
-    position: { bottom: "8%", left: "10%", transform: "translate(0, 10%)" },
-  },
-  {
-    name: "Economy",
-    color: "#FF9800",
-    image: "/images/sphere-economy.svg",
-    position: { top: "45%", left: "-8%" },
-  },
-  {
-    name: "Arts",
-    color: "#E91E63",
-    image: "/images/sphere-arts.svg",
-    position: { top: "12%", left: "5%", transform: "translate(-10%, 0)" },
-  },
+  { name: "Religion", color: "#4CAF50", image: "/images/sphere-religion.svg" },
+  { name: "Family", color: "#F44336", image: "/images/sphere-family.svg" },
+  { name: "Government", color: "#FFC107", image: "/images/sphere-government.svg" },
+  { name: "Communications", color: "#7C4DFF", image: "/images/sphere-communications.svg" },
+  { name: "Education", color: "#00BCD4", image: "/images/sphere-education.svg" },
+  { name: "Economy", color: "#FF9800", image: "/images/sphere-economy.svg" },
+  { name: "Celebration", color: "#E91E63", image: "/images/sphere-celebration.svg" },
 ];
 
-const SphereView: FC<SphereViewProps> = () => {
+const DONUT_COLORS = [
+  "#F44336", "#FF9800", "#FFC107", "#4CAF50",
+  "#00BCD4", "#7C4DFF", "#E91E63",
+];
+
+function getSpherePosition(index: number, total: number) {
+  const angle = (index * 2 * Math.PI) / total - Math.PI / 2;
+  const radius = 42;
+  return {
+    left: `${50 + radius * Math.cos(angle)}%`,
+    top: `${50 + radius * Math.sin(angle)}%`,
+  };
+}
+
+const AnimatedDonut: FC = () => {
+  const segments = DONUT_COLORS.length;
+  const segAngle = 360 / segments;
+
+  const stops = DONUT_COLORS.map(
+    (c, i) => `${c} ${i * segAngle}deg ${(i + 1) * segAngle}deg`
+  ).join(", ");
+
+  return (
+    <div
+      className="absolute top-1/2 left-1/2 z-[2] -translate-x-1/2 -translate-y-1/2 rounded-full"
+      style={{
+        width: "28%",
+        height: "28%",
+        background: "#2D3436",
+        boxShadow: "0 6px 24px rgba(0,0,0,0.18)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <div
+        className="rounded-full"
+        style={{
+          width: "78%",
+          height: "78%",
+          background: `conic-gradient(${stops})`,
+          animation: "sphereSpin 30s linear infinite",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div
+          className="rounded-full"
+          style={{
+            width: "80%",
+            height: "80%",
+            background: "#2D3436",
+          }}
+        />
+      </div>
+    </div>
+  );
+};
+
+const SphereView: FC = () => {
   return (
     <section className="text-center" style={{ padding: "7rem 2.5rem" }}>
       <p className="s-label">SphereView</p>
@@ -66,68 +88,55 @@ const SphereView: FC<SphereViewProps> = () => {
         416 key passages reveal God&rsquo;s design for every area of society.
       </p>
 
-      {/* Orbital ring container */}
-      <div
-        className="relative mx-auto mt-14 w-[260px] h-[260px] md:w-[300px] md:h-[300px] lg:w-[380px] lg:h-[380px]"
-      >
-        {/* Center hub */}
-        <div
-          className="absolute top-1/2 left-1/2 z-[2] -translate-x-1/2 -translate-y-1/2 w-[65px] h-[65px] md:w-[80px] md:h-[80px] lg:w-[100px] lg:h-[100px] rounded-full overflow-hidden"
-          style={{
-            backgroundColor: "#2D3436",
-            border: "3px solid #444",
-            boxShadow: "0 8px 30px rgba(0,0,0,0.15)",
-          }}
-        >
-          <Image
-            src="/images/sphere-center.png"
-            alt="Center sphere"
-            fill
-            className="object-cover rounded-full"
-          />
-        </div>
+      <div className="relative mx-auto mt-14 w-[280px] h-[280px] md:w-[340px] md:h-[340px] lg:w-[420px] lg:h-[420px]">
+        <AnimatedDonut />
 
-        {/* Orbiting spheres */}
-        {SPHERES.map((sphere) => (
-          <div
-            key={sphere.name}
-            className="absolute flex flex-col items-center cursor-pointer w-[48px] h-[48px] md:w-[56px] md:h-[56px] lg:w-[68px] lg:h-[68px] rounded-full hover:scale-[1.2] hover:z-30"
-            style={{
-              ...sphere.position,
-              backgroundColor: sphere.color,
-              border: "2px solid rgba(255,255,255,0.3)",
-              boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              transition: "all 0.4s cubic-bezier(0.23, 1, 0.32, 1)",
-            }}
-          >
-            <div className="relative w-6 h-6 md:w-7 md:h-7 lg:w-9 lg:h-9">
-              <Image
-                src={sphere.image}
-                alt={sphere.name}
-                fill
-                className="object-contain"
-                style={{ filter: "brightness(0) invert(1)", opacity: 0.9 }}
-              />
-            </div>
-
-            <span
-              className="absolute whitespace-nowrap"
+        {SPHERES.map((sphere, i) => {
+          const pos = getSpherePosition(i, SPHERES.length);
+          return (
+            <div
+              key={sphere.name}
+              className="absolute flex flex-col items-center"
               style={{
-                bottom: -20,
-                fontSize: "0.52rem",
-                textTransform: "uppercase",
-                letterSpacing: "0.1em",
-                color: "var(--ink3)",
-                fontWeight: 500,
+                left: pos.left,
+                top: pos.top,
+                transform: "translate(-50%, -50%)",
               }}
             >
-              {sphere.name}
-            </span>
-          </div>
-        ))}
+              <div
+                className="rounded-full cursor-pointer hover:scale-[1.15] hover:z-30 flex items-center justify-center w-[52px] h-[52px] md:w-[62px] md:h-[62px] lg:w-[74px] lg:h-[74px]"
+                style={{
+                  backgroundColor: sphere.color,
+                  border: "2.5px solid rgba(255,255,255,0.35)",
+                  boxShadow: "0 4px 15px rgba(0,0,0,0.12)",
+                  transition: "all 0.4s cubic-bezier(0.23, 1, 0.32, 1)",
+                }}
+              >
+                <div className="relative w-8 h-8 md:w-9 md:h-9 lg:w-11 lg:h-11">
+                  <Image
+                    src={sphere.image}
+                    alt={sphere.name}
+                    fill
+                    className="object-contain"
+                    style={{ filter: "brightness(0) invert(1)", opacity: 0.9 }}
+                  />
+                </div>
+              </div>
+              <span
+                className="whitespace-nowrap mt-2"
+                style={{
+                  fontSize: "0.52rem",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.1em",
+                  color: "var(--ink3)",
+                  fontWeight: 500,
+                }}
+              >
+                {sphere.name}
+              </span>
+            </div>
+          );
+        })}
       </div>
     </section>
   );

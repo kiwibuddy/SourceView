@@ -90,19 +90,6 @@ const Navbar: FC<NavbarProps> = () => {
 
         {/* Right side */}
         <div className="flex items-center gap-3">
-          <a
-            href="#download"
-            className="hidden md:inline-flex items-center justify-center rounded-full text-white transition-colors duration-300 hover:bg-[var(--ruby)]"
-            style={{
-              backgroundColor: "var(--ink)",
-              fontSize: "0.78rem",
-              fontWeight: 500,
-              padding: "0.55rem 1.5rem",
-            }}
-          >
-            Download Free
-          </a>
-
           {/* Mobile hamburger */}
           <button
             className="md:hidden flex flex-col justify-center items-center w-9 h-9 gap-[5px] cursor-pointer"
@@ -159,19 +146,6 @@ const Navbar: FC<NavbarProps> = () => {
               {link.label}
             </Link>
           ))}
-          <a
-            href="#download"
-            onClick={() => setMobileOpen(false)}
-            className="mt-2 inline-flex items-center justify-center rounded-full text-white transition-colors duration-300 hover:bg-[var(--ruby)]"
-            style={{
-              backgroundColor: "var(--ink)",
-              fontSize: "0.85rem",
-              fontWeight: 500,
-              padding: "0.7rem 1.5rem",
-            }}
-          >
-            Download Free
-          </a>
         </div>
       </div>
     </nav>

@@ -4,7 +4,6 @@ interface ProductCtaProps {
   appStoreUrl?: string;
   playStoreUrl?: string;
   webUrl?: string;
-  accentColor?: string;
 }
 
 const AppleIcon = () => (
@@ -39,66 +38,60 @@ const ProductCta: FC<ProductCtaProps> = ({
   appStoreUrl,
   playStoreUrl,
   webUrl,
-  accentColor = "var(--lead)",
 }) => {
+  const platforms: { label: string; name: string; href: string; icon: React.ReactNode }[] = [];
+
+  if (appStoreUrl) {
+    platforms.push({ label: "Download on the", name: "App Store", href: appStoreUrl, icon: <AppleIcon /> });
+  }
+  if (playStoreUrl) {
+    platforms.push({ label: "Get it on", name: "Google Play", href: playStoreUrl, icon: <PlayIcon /> });
+  }
+  if (webUrl) {
+    platforms.push({ label: "Open in", name: "Web Browser", href: webUrl, icon: <GlobeIcon /> });
+  }
+
   return (
-    <div
-      className="flex flex-row gap-[0.6rem] mt-8 flex-wrap"
-      style={{ gap: "0.6rem" }}
-    >
-      {appStoreUrl && (
+    <div className="flex flex-row flex-wrap gap-[0.65rem] mt-8">
+      {platforms.map((p) => (
         <a
-          href={appStoreUrl}
+          key={p.name}
+          href={p.href}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-[0.4rem] rounded-full transition-all duration-200 hover:-translate-y-px bg-[var(--ink)] hover:!bg-[var(--ruby)] text-white"
+          className="flex items-center transition-all duration-200 hover:border-[var(--ruby)] hover:bg-[var(--ruby-soft)] hover:-translate-y-[3px]"
           style={{
-            padding: "0.75rem 1.8rem",
-            fontSize: "0.82rem",
-            fontWeight: 500,
-          }}
-        >
-          <AppleIcon />
-          App Store
-        </a>
-      )}
-      {playStoreUrl && (
-        <a
-          href={playStoreUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-[0.4rem] rounded-full transition-all duration-200 hover:-translate-y-px"
-          style={{
-            padding: "0.75rem 1.8rem",
-            fontSize: "0.82rem",
-            fontWeight: 500,
-            backgroundColor: accentColor,
-            color: "white",
-          }}
-        >
-          <PlayIcon />
-          Google Play
-        </a>
-      )}
-      {webUrl && (
-        <a
-          href={webUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-[0.4rem] rounded-full transition-all duration-200 hover:border-[var(--ruby)] hover:text-[var(--ruby)]"
-          style={{
-            padding: "0.75rem 1.8rem",
-            fontSize: "0.82rem",
-            fontWeight: 500,
-            backgroundColor: "var(--bg2)",
-            color: "var(--ink)",
+            gap: "0.6rem",
+            padding: "0.7rem 1.4rem",
             border: "1px solid rgba(0,0,0,0.08)",
+            borderRadius: "var(--radius-sm)",
           }}
         >
-          <GlobeIcon />
-          Open Web Reader
+          <span style={{ color: "var(--ink)" }}>{p.icon}</span>
+          <span className="flex flex-col text-left">
+            <span
+              style={{
+                fontSize: "0.55rem",
+                color: "var(--ink3)",
+                lineHeight: 1.2,
+                fontWeight: 400,
+              }}
+            >
+              {p.label}
+            </span>
+            <span
+              style={{
+                fontSize: "0.92rem",
+                fontWeight: 500,
+                color: "var(--ink)",
+                lineHeight: 1.2,
+              }}
+            >
+              {p.name}
+            </span>
+          </span>
         </a>
-      )}
+      ))}
     </div>
   );
 };

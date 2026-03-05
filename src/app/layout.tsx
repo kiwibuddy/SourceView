@@ -47,6 +47,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${playfair.variable} ${outfit.variable} ${jetbrains.variable}`}
+        suppressHydrationWarning
       >
         {children}
       </body>

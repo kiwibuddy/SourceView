@@ -1,6 +1,5 @@
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
-import MarqueeBar from "./components/MarqueeBar";
 import ProductGrid from "./components/ProductGrid";
 import ScriptureDemo from "./components/ScriptureDemo";
 import SphereView from "./components/SphereView";
@@ -16,7 +15,6 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
-        <MarqueeBar />
         <ProductGrid />
         <ScriptureDemo />
         <SphereView />
