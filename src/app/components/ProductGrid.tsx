@@ -259,89 +259,96 @@ const sizeClasses: Record<string, string> = {
   sm: "col-span-1 md:col-span-4",
 };
 
-const CardContent: FC<{ product: Product }> = ({ product }) => (
-  <>
-    <div
-      className="absolute bottom-0 left-[1.8rem] right-[1.8rem] rounded-t-sm transition-all duration-400 h-0 group-hover:h-[3px]"
-      style={{ background: product.accent }}
-    />
+const logoSize: Record<string, number> = { lg: 64, md: 56, sm: 52 };
+const titleSize: Record<string, string> = { lg: "1.45rem", md: "1.25rem", sm: "1.1rem" };
 
-    <div className="mb-4 flex items-start justify-between">
-      <Image
-        src={product.logo}
-        alt={`${product.name} logo`}
-        width={48}
-        height={48}
-        className="transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-[3deg]"
-        style={{
-          borderRadius: "var(--radius-sm)",
-          boxShadow: "0 3px 12px rgba(0,0,0,0.06)",
-        }}
+const CardContent: FC<{ product: Product }> = ({ product }) => {
+  const size = product.size;
+  const logo = logoSize[size];
+  return (
+    <>
+      <div
+        className="absolute bottom-0 left-[1.8rem] right-[1.8rem] rounded-t-sm transition-all duration-400 h-0 group-hover:h-[3px]"
+        style={{ background: product.accent }}
       />
-      <span
-        className="inline-flex items-center rounded-full font-medium"
-        style={{
-          fontSize: "0.5rem",
-          letterSpacing: "0.06em",
-          textTransform: "uppercase",
-          padding: "0.12rem 0.45rem",
-          color: product.badgeColor,
-          background: `color-mix(in srgb, ${product.badgeColor} 6%, transparent)`,
-        }}
-      >
-        {product.badge}
-      </span>
-    </div>
 
-    <h3
-      className="font-serif transition-colors duration-300 group-hover:text-[var(--ruby)]"
-      style={{
-        fontSize: "1.2rem",
-        fontWeight: 500,
-        letterSpacing: "-0.02em",
-        marginBottom: "0.35rem",
-      }}
-    >
-      {product.name}
-    </h3>
-
-    <p
-      style={{
-        fontSize: "0.78rem",
-        color: "var(--ink3)",
-        lineHeight: 1.6,
-        fontWeight: 300,
-      }}
-    >
-      {product.description}
-    </p>
-
-    <div className="mt-auto flex flex-wrap gap-1 pt-4">
-      {product.tags.map((tag) => (
-        <span
-          key={tag}
-          className="rounded-full"
+      <div className="mb-4 flex items-start justify-between">
+        <Image
+          src={product.logo}
+          alt={`${product.name} logo`}
+          width={logo}
+          height={logo}
+          className="transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-[3deg]"
           style={{
-            fontSize: "0.55rem",
-            padding: "0.15rem 0.45rem",
-            background: "rgba(0,0,0,0.03)",
-            color: "var(--ink4)",
-            border: "1px solid rgba(0,0,0,0.03)",
+            borderRadius: "var(--radius-sm)",
+            boxShadow: "0 3px 12px rgba(0,0,0,0.06)",
+          }}
+        />
+        <span
+          className="inline-flex items-center rounded-full font-medium"
+          style={{
+            fontSize: "0.65rem",
+            letterSpacing: "0.06em",
+            textTransform: "uppercase",
+            padding: "0.2rem 0.5rem",
+            color: product.badgeColor,
+            background: `color-mix(in srgb, ${product.badgeColor} 6%, transparent)`,
           }}
         >
-          {tag}
+          {product.badge}
         </span>
-      ))}
-    </div>
+      </div>
 
-    <span
-      className="mt-3 inline-flex items-center gap-1 transition-[gap] duration-200 group-hover:gap-2"
-      style={{ fontSize: "0.72rem", fontWeight: 500, color: "var(--ruby)" }}
-    >
-      Learn more <span aria-hidden="true">&rarr;</span>
-    </span>
-  </>
-);
+      <h3
+        className="font-serif transition-colors duration-300 group-hover:text-[var(--ruby)]"
+        style={{
+          fontSize: titleSize[size],
+          fontWeight: 500,
+          letterSpacing: "-0.02em",
+          marginBottom: "0.4rem",
+        }}
+      >
+        {product.name}
+      </h3>
+
+      <p
+        style={{
+          fontSize: size === "lg" ? "0.9rem" : size === "md" ? "0.85rem" : "0.82rem",
+          color: "var(--ink3)",
+          lineHeight: 1.65,
+          fontWeight: 300,
+        }}
+      >
+        {product.description}
+      </p>
+
+      <div className="mt-auto flex flex-wrap gap-1.5 pt-4">
+        {product.tags.map((tag) => (
+          <span
+            key={tag}
+            className="rounded-full"
+            style={{
+              fontSize: "0.68rem",
+              padding: "0.2rem 0.5rem",
+              background: "rgba(0,0,0,0.03)",
+              color: "var(--ink4)",
+              border: "1px solid rgba(0,0,0,0.03)",
+            }}
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
+
+      <span
+        className="mt-3 inline-flex items-center gap-1 transition-[gap] duration-200 group-hover:gap-2"
+        style={{ fontSize: "0.85rem", fontWeight: 500, color: "var(--ruby)" }}
+      >
+        Learn more <span aria-hidden="true">&rarr;</span>
+      </span>
+    </>
+  );
+};
 
 const ReelCard: FC = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -446,7 +453,7 @@ const ProductGrid: FC = () => (
 
       <div
         className="grid grid-cols-1 md:grid-cols-12 gap-4"
-        style={{ gridAutoRows: "minmax(180px, auto)" }}
+        style={{ gridAutoRows: "minmax(200px, auto)" }}
       >
         {products.map((product, i) => (
           <React.Fragment key={product.name}>
