@@ -25,16 +25,21 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SourceView — Experience the Drama of God's Story",
+  title: "SourceView",
   description:
     "A revolutionary suite of Bible tools built on 40,000 hours of original research. Four-color dramatic text reveals who speaks in Scripture.",
+  applicationName: "SourceView",
   openGraph: {
-    title: "SourceView — Experience the Drama of God's Story",
+    title: "SourceView",
     description:
       "A revolutionary suite of Bible tools built on 40,000 hours of original research.",
     type: "website",
     locale: "en_US",
     siteName: "SourceView",
+  },
+  appleWebApp: {
+    title: "SourceView",
+    capable: true,
   },
 };
 
