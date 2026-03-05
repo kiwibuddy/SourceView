@@ -1,0 +1,74 @@
+---
+description: SourceView landing site conventions
+globs: ["src/**/*.tsx", "src/**/*.ts", "src/**/*.css"]
+---
+
+# SourceView Landing Site Rules
+
+## Project Overview
+SourceView landing site built with Next.js App Router, TypeScript, and Tailwind CSS.
+Google Fonts: Playfair Display (serif headings), Outfit (body), JetBrains Mono (mono accents).
+Color system uses CSS custom properties (--god, --lead, --support, --narrator, --ruby, --ink, --bg).
+
+## TypeScript Rules
+- ALWAYS use TypeScript — no JavaScript files
+- Strict mode enabled — no implicit any
+- Type everything explicitly — interfaces for all data structures
+- No type assertions unless absolutely necessary
+
+## React Component Rules
+- ONLY functional components — no class components
+- Use modern hooks — useState, useEffect, useMemo, useCallback, useContext
+- Server Components first — use Client Components ("use client") only when needed (animations, event handlers, intersection observers)
+- Define explicit interfaces for all component props
+- Component file structure:
+  ```typescript
+  import { FC } from 'react';
+
+  interface ComponentNameProps {
+    // ...
+  }
+
+  export const ComponentName: FC<ComponentNameProps> = ({ prop1, prop2 }) => {
+    return (/* JSX */);
+  };
+  ```
+
+## Naming Conventions
+- Components: PascalCase (e.g., `SphereView`, `ProductCard`)
+- Files: kebab-case for pages (e.g., `sourceview-bible/page.tsx`)
+- Hooks: camelCase with 'use' prefix (e.g., `useRevealOnScroll`)
+- Constants: UPPER_SNAKE_CASE (e.g., `PRODUCT_ITEMS`)
+- Utilities: camelCase (e.g., `formatDate`)
+
+## Tailwind & Styling
+- Mobile-first: always start with mobile styles, add breakpoints up (sm, md, lg, xl)
+- Spacing scale: use Tailwind's default (4px base unit)
+- Prefer CSS animations/transitions over JavaScript animation libraries
+- Use CSS custom properties for the SourceView color system alongside Tailwind utilities
+
+## Performance
+- First Contentful Paint: < 1.5s
+- Time to Interactive: < 3.5s
+- Use Next.js Image component for all images
+- Lazy load components below the fold
+- Prefetch critical navigation paths (product pages)
+
+## Semantic HTML & Accessibility
+- Use proper semantic elements: section, nav, main, footer, article
+- All images must have descriptive alt text
+- Interactive elements need aria labels where context is not obvious
+- Color contrast must meet WCAG AA
+- All external links must use target="_blank" with rel="noopener noreferrer"
+
+## Testing Checklist
+Before considering any feature complete:
+- [ ] Test on mobile viewport (320px width)
+- [ ] Test on tablet viewport (768px width)
+- [ ] Test on desktop viewport (1920px width)
+- [ ] Test with slow network (Chrome DevTools throttling)
+
+## Planning Process (Required)
+1. Explain your approach in 2-3 sentences
+2. Identify dependencies — what needs to exist first?
+3. Consider edge cases — what could go wrong?

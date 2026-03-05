@@ -1,26 +1,143 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --god: #D63031;
+  --lead: #00B894;
+  --support: #0984E3;
+  --narrator: #2D3436;
+  --bg: #FEFEFE;
+  --bg2: #F6F5F2;
+  --bg3: #EDEBE6;
+  --ink: #111;
+  --ink2: #444;
+  --ink3: #888;
+  --ink4: #B5B3AD;
+  --ruby: #A41623;
+  --ruby-soft: rgba(164, 22, 35, 0.06);
+  --ruby-mid: rgba(164, 22, 35, 0.12);
+  --radius: 20px;
+  --radius-sm: 12px;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--bg);
+  --color-foreground: var(--ink);
+  --color-god: var(--god);
+  --color-lead: var(--lead);
+  --color-support: var(--support);
+  --color-narrator: var(--narrator);
+  --color-ruby: var(--ruby);
+  --color-ruby-soft: var(--ruby-soft);
+  --color-ruby-mid: var(--ruby-mid);
+  --color-bg2: var(--bg2);
+  --color-bg3: var(--bg3);
+  --color-ink: var(--ink);
+  --color-ink2: var(--ink2);
+  --color-ink3: var(--ink3);
+  --color-ink4: var(--ink4);
+  --font-serif: var(--font-playfair);
+  --font-sans: var(--font-outfit);
+  --font-mono: var(--font-jetbrains);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-outfit), sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Animations */
+@keyframes orbFloat {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -20px) scale(1.1); }
+  66% { transform: translate(-20px, 30px) scale(0.9); }
+  100% { transform: translate(10px, -10px) scale(1.05); }
+}
+
+@keyframes lineUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes heroReveal {
+  to { opacity: 1; }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes sphereSpin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes mouseScroll {
+  0% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(10px); }
+}
+
+@keyframes tagPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+
+/* Reveal on scroll utility */
+.rv {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.rv.vis {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.rv-d1 { transition-delay: 0.1s; }
+.rv-d2 { transition-delay: 0.2s; }
+.rv-d3 { transition-delay: 0.3s; }
+.rv-d4 { transition-delay: 0.4s; }
+.rv-d5 { transition-delay: 0.5s; }
+
+/* Section label */
+.s-label {
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ruby);
+  margin-bottom: 0.6rem;
+  font-weight: 500;
+}
+
+/* Section heading */
+.s-head {
+  font-family: var(--font-playfair), serif;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.12;
+  margin-bottom: 1rem;
+}
+
+/* Section description */
+.s-desc {
+  font-size: 0.98rem;
+  color: var(--ink3);
+  line-height: 1.75;
+  max-width: 500px;
+  font-weight: 300;
+}
+
+/* Color strip decoration */
+.color-strip {
+  height: 3px;
+  background: linear-gradient(90deg, var(--god), var(--lead), var(--support), var(--narrator));
+  border-radius: 0 0 var(--radius) var(--radius);
 }
